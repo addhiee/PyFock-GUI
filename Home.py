@@ -451,7 +451,6 @@ with col1:
     conv_crit = st.number_input("Convergence Criterion:", min_value=1e-7, max_value=1e-3, value=1e-6, format="%.1e")
     ncores = 1#st.number_input("Number of Cores:", min_value=1, max_value=8, value=4)
     use_pyscf_grids = st.checkbox("Use PySCF Grids", value=True, help="Use either PySCF grids for both PyFock and PySCF DFT calculation or PyFock grids for both PyFock and PySCF DFT calculaiton. Using PySCF grids is recommended as those are more efficient and also makes the comparison with PySCF consistent.") 
-    use_pyscf_initial_guess = st.checkbox("Use PySCF Initial Guess", value=True, help="Using PySCF initial guess for MOs maybe useful if the SCF does not converge.") 
     compare_pyscf = st.checkbox("Compare with PySCF (may take longer)", value=False, help="Runs a KS-DFT calculation using same settings in PySCF for energy comparison.")
 
 st.markdown("---")
@@ -556,19 +555,7 @@ if st.button("🚀 Run DFT Calculation", type="primary"):
                 # PyFock grids
                 grids = Grids(mol, basis=basis, level = 3, radial_precision=1.0e-13, ncores=ncores)
 
-            if use_pyscf_initial_guess:
-                # PySCF molecule for initial guess
-                molPySCF = gto.Mole()
-                molPySCF.atom = xyz_file
-                molPySCF.basis = basis_set
-                molPySCF.cart = True
-                molPySCF.verbose = 0
-                molPySCF.build()
-                # Initial guess from PySCF if selected
-                mf_temp = dft.rks.RKS(molPySCF).density_fit(auxbasis=auxbasis)
-                dmat_init = mf_temp.init_guess_by_atom(molPySCF)
-            else:
-                dmat_init = None
+            
 
             # Initialize DFT object
             status_text.text("Initializing DFT calculation...")
@@ -579,7 +566,6 @@ if st.button("🚀 Run DFT Calculation", type="primary"):
             dftObj.max_itr = max_iterations
             dftObj.ncores = 1
             dftObj.save_ao_values = True
-            dftObj.dmat = dmat_init
             
             # Run SCF calculation
             status_text.text("Running SCF calculation... This may take a few moments.")
@@ -797,9 +783,7 @@ if st.button("🚀 Run DFT Calculation", type="primary"):
                         molPySCF.verbose = 5
                         molPySCF.build()
                     
-                    mf = dft.rks.RKS(molPySCF).density_fit(auxbasis=auxbasis).apply(scf.addons.remove_linear_dep_)
-                    # dmat_init = None
-                    # dmat_init = mf.init_guess_by_1e(molPySCF)
+                    mf = dft.rks.RKS(molPySCF).density_fit(auxbasis=auxbasis)
                     mf.xc = funcidpyscf
                     # mf.direct_scf = False
                     mf.conv_tol = conv_crit
@@ -810,10 +794,9 @@ if st.button("🚀 Run DFT Calculation", type="primary"):
 
                     # Disable PySCF's automatic grid generation
                     mf.grids.build = lambda *args, **kwargs: None
-                    # scf.addons.remove_linear_dep_(molPySCF, threshold=1e-6)
                     
                     start_pyscf = time.time()
-                    energyPySCF = mf.kernel(dm0=dmat_init)
+                    energyPySCF = mf.kernel(dm0 = mf.init_guess_by_1e(molPySCF))
                     pyscf_time = time.time() - start_pyscf
                     
                     st.subheader("5. Comparison with PySCF")
