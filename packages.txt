@@ -1,1 +1,1 @@
-install libxc-dev
+#libxc-dev
