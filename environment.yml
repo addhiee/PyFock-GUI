@@ -8,6 +8,7 @@ dependencies:
 
   - pip:
       - streamlit
+      - psutil
       - numpy
       - py3Dmol
       - ipython
