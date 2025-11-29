@@ -101,10 +101,10 @@ Utils.write_orbital_cube(mol, basis, dftObj.mo_coefficients[:, homo_idx], 'HOMO.
 PyFock uses Numba JIT compilation for acceleration. The **first calculation will be slower** as functions are compiled. **Subsequent runs will be significantly faster** - this is expected behavior and a key advantage of JIT compilation.
 
 ### System Limits
-Cloud version is limited to ~120 basis functions due to computational constraints. Local version can handle much larger systems (4000+ basis functions). For large molecules, use smaller basis sets (sto-3g) or run locally.
+Cloud version is limited to ~120 basis functions due to computational constraints. Local version can handle much larger systems (~10,000 basis functions). For large molecules, use smaller basis sets (sto-3g) or run locally.
 
 ### Recommended Settings
-Quick tests: sto-3g basis with small molecules (water, ammonia). Production runs: 6-31G or def2-SVP basis. High accuracy: cc-pVDZ or def2-TZVP basis (use locally for large systems).
+Quick tests: sto-3g basis with small molecules (water, benzene). Production runs: 6-31G or def2-SVP basis. High accuracy: cc-pVDZ or def2-TZVP basis (use locally for large systems).
 
 ## Example Molecules
 
