@@ -447,7 +447,7 @@ with col1:
         index=0
     )
     
-    max_iterations = st.number_input("Max Iterations:", min_value=1, max_value=40, value=20)
+    max_iterations = st.number_input("Max Iterations:", min_value=1, max_value=16, value=14)
     conv_crit = st.number_input("Convergence Criterion:", min_value=1e-7, max_value=1e-3, value=1e-6, format="%.1e")
     ncores = 1#st.number_input("Number of Cores:", min_value=1, max_value=8, value=4)
     use_pyscf_grids = st.checkbox("Use PySCF Grids", value=True, help="Use either PySCF grids for both PyFock and PySCF DFT calculation or PyFock grids for both PyFock and PySCF DFT calculaiton. Using PySCF grids is recommended as those are more efficient and also makes the comparison with PySCF consistent.") 
@@ -739,6 +739,29 @@ if st.button("🚀 Run DFT Calculation", type="primary"):
                             st.markdown(f"#### {title}")
                             html_blob = visualize_cube_in_component(cube_files[title], title, isovalue, opacity)
                             components.html(html_blob, height=380, width=420)
+
+            col14, col15, col16 = st.columns(3)
+            
+            # Helper to create base64 download links (avoids widget-triggered reruns)
+            def make_download_link(content, filename, mimetype="text/plain"):
+                if isinstance(content, str):
+                    b = content.encode()
+                else:
+                    b = content
+                b64 = base64.b64encode(b).decode()
+                return f'<a href="data:{mimetype};base64,{b64}" download="{filename}">📥 Download {filename}</a>'
+            
+            with col14:
+                if 'HOMO' in cube_files:
+                    st.markdown(make_download_link(cube_files['HOMO'], "homo.cube"), unsafe_allow_html=True)
+            
+            with col15:
+                if 'LUMO' in cube_files:
+                    st.markdown(make_download_link(cube_files['LUMO'], "lumo.cube"), unsafe_allow_html=True)
+            
+            with col16:
+                if 'Density' in cube_files:
+                    st.markdown(make_download_link(cube_files['Density'], "density.cube"), unsafe_allow_html=True)
             
             progress_bar.progress(90)
             
@@ -801,7 +824,7 @@ if st.button("🚀 Run DFT Calculation", type="primary"):
                     
                     st.subheader("5. Comparison with PySCF")
                     
-                    col11, col12 = st.columns(2)
+                    col11, col12, col13 = st.columns(3)
                     
                     with col11:
                         st.metric("PySCF Energy", f"{energyPySCF:.8f} Ha")
@@ -810,36 +833,21 @@ if st.button("🚀 Run DFT Calculation", type="primary"):
                         energy_diff = abs(energyPyFock - energyPySCF) * 1000  # in mHa
                         st.metric("Energy Difference", f"{energy_diff:.6f} mHa")
                     
+                    with col13:
+                        speedup = pyscf_time / pyfock_time
+                        # st.metric("PyFock Speedup", f"{speedup:.2f}x" if speedup > 1 else f"{1/speedup:.2f}x slower")
+                
+                        # st.write(f"**PyFock time:** {pyfock_time:.2f} s | **PySCF time:** {pyscf_time:.2f} s")
+                    
                 except Exception as e:
                     st.warning(f"PySCF comparison failed: {str(e)}")
             
             progress_bar.progress(95)
             
             # Downloads section
-            st.subheader("6. Downloads")
+            st.subheader("6. INPUT Script Generation")
             
-            col14, col15, col16 = st.columns(3)
             
-            # Helper to create base64 download links (avoids widget-triggered reruns)
-            def make_download_link(content, filename, mimetype="text/plain"):
-                if isinstance(content, str):
-                    b = content.encode()
-                else:
-                    b = content
-                b64 = base64.b64encode(b).decode()
-                return f'<a href="data:{mimetype};base64,{b64}" download="{filename}">📥 Download {filename}</a>'
-            
-            with col14:
-                if 'HOMO' in cube_files:
-                    st.markdown(make_download_link(cube_files['HOMO'], "homo.cube"), unsafe_allow_html=True)
-            
-            with col15:
-                if 'LUMO' in cube_files:
-                    st.markdown(make_download_link(cube_files['LUMO'], "lumo.cube"), unsafe_allow_html=True)
-            
-            with col16:
-                if 'Density' in cube_files:
-                    st.markdown(make_download_link(cube_files['Density'], "density.cube"), unsafe_allow_html=True)
             
             
             
@@ -917,7 +925,20 @@ Utils.write_density_cube(mol, basis, dftObj.dmat, 'density.cube',
 
 print("Cube files generated successfully!")
 """
-            
+            parameters = {
+                'ncores': ncores,
+                'xyz_content': xyz_content,
+                'basis_set': basis_set,
+                'auxbasis': auxbasis, # Often a different basis set for auxiliary functions
+                'funcx': funcx,        # Example ID for exchange functional (like LDA_X)
+                'funcc': funcc,        # Example ID for correlation functional (like LDA_C_PZ)
+                'conv_crit': conv_crit,
+                'max_iterations': max_iterations,
+                'cube_resolution': cube_resolution
+            }
+            python_script = python_script.format(**parameters)
+            with st.expander("Input Script to Run the Above PyFock Calculation"):
+                st.code(python_script)
             # Provide script as base64 link (no rerun on click)
             st.markdown(make_download_link(python_script, "pyfock_calculation.py", mimetype="text/x-python"), unsafe_allow_html=True)
             
@@ -925,7 +946,7 @@ print("Cube files generated successfully!")
             status_text.text("✅ All tasks completed!")
             
             # === Show captured stdout/stderr logs ===
-            st.subheader("Calculation Log Output")
+            st.subheader("7. Calculation Log Output")
             log_buffer.seek(0)
             log_text = log_buffer.read()
             if log_text.strip():
