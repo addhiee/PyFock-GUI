@@ -110,9 +110,10 @@ with st.sidebar.expander("⚡ Performance Highlights"):
 - Upto 2x faster than PySCF
 - Strong scaling up to 32 cores
 - ~O(N²·⁰⁵) scaling with basis functions
+- Suitable for large systems (upto ~10,000 basis functions)
 
 **GPU Acceleration:**
-- Up to **14× speedup** vs 4-core CPU
+- Up to **14× speedup** on A100 GPU vs 4-core CPU
 - Single A100 GPU handles 4000+ basis functions
 - Consumer GPUs (RTX series) supported
 """)
@@ -588,7 +589,10 @@ if st.button("🚀 Run DFT Calculation", type="primary"):
             progress_bar.progress(50)
             
             # Display results
-            st.success(f"✅ PyFock calculation completed in {pyfock_time:.2f} seconds!")
+            if dftObj.converged:
+                st.success(f"✅ PyFock KS-DFT calculation converged in {pyfock_time:.2f} seconds and {dftObj.niter} iterations!")
+            else:
+                st.warning(f"⚠️ PyFock KS-DFT calculation did not converge in {dftObj.niter} iterations and {pyfock_time:.2f} seconds!")
             
             st.header("3. Results")
             
@@ -634,8 +638,44 @@ if st.button("🚀 Run DFT Calculation", type="primary"):
                     st.metric("HOMO-LUMO Gap", "N/A")
             
             with col8:
-                # st.metric("SCF Iterations", f"{len(dftObj.energy_list)}")
-                st.write('TODO: SCF Iterations')
+                st.metric("SCF Iterations", f"{dftObj.niter}")
+                
+                with st.expander("SCF Convergence Details"):
+                    # Create a DataFrame for the energies
+                    import pandas as pd
+                    scf_data = pd.DataFrame({
+                        'Iteration': range(1, len(dftObj.scf_energies) + 1),
+                        'Energy (Ha)': dftObj.scf_energies
+                    })
+                    
+                    # Calculate energy change between iterations
+                    scf_data['ΔE (Ha)'] = scf_data['Energy (Ha)'].diff()
+                    
+                    # Display the table
+                    st.dataframe(scf_data, use_container_width=True, hide_index=True)
+                    
+                    # Plot convergence
+                    import plotly.graph_objects as go
+                    
+                    fig = go.Figure()
+                    fig.add_trace(go.Scatter(
+                        x=scf_data['Iteration'],
+                        y=scf_data['Energy (Ha)'],
+                        mode='lines+markers',
+                        name='Energy',
+                        line=dict(color='#1f77b4', width=2),
+                        marker=dict(size=6)
+                    ))
+                    
+                    fig.update_layout(
+                        title='SCF Energy Convergence',
+                        xaxis_title='Iteration',
+                        yaxis_title='Energy (Hartree)',
+                        hovermode='x unified',
+                        height=400
+                    )
+                    
+                    st.plotly_chart(fig, use_container_width=True)
             
             # MO energies
             st.subheader("Molecular Orbital Energies")
@@ -948,7 +988,7 @@ print("Cube files generated successfully!")
             }
             python_script = python_script.format(**parameters)
             with st.expander("Input Script to Run the Above PyFock Calculation"):
-                st.code(python_script)
+                st.code(python_script, language='python')
             # Provide script as base64 link (no rerun on click)
             st.markdown(make_download_link(python_script, "pyfock_calculation.py", mimetype="text/x-python"), unsafe_allow_html=True)
             
